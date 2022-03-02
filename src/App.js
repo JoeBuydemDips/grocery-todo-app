@@ -26,7 +26,7 @@ function App() {
       showAlert(true, "item added to the list", "success");
       //Add item to list
       const newItem = { id: new Date().getTime().toString(), title: name };
-      setList([...list, newItem]);
+      setList([newItem, ...list]);
       setName(""); //clear text field after adding to list
     }
   };
