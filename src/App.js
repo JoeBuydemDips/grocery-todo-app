@@ -11,7 +11,20 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!name) {
+      //check if value is empty, then display alert
+      //display Alert
+    } else if (name && isEditing) {
+      //deal with edit
+    } else {
+      //show alert
+      //Add item to list
+      const newItem = { id: new Date().getTime().toString(), title: name };
+      setList([...list, newItem]);
+      setName(""); //clear text field after adding to list
+    }
   };
+
   return (
     <section className="section-center">
       <form className="grocery-form" onClick={handleSubmit}>
@@ -30,10 +43,13 @@ function App() {
           </button>
         </div>
       </form>
-      <div className="grocery-container">
-        <List />
-        <button className="clear-btn">clear items</button>
-      </div>
+      {/* Only display list form when list is not empty*/}
+      {list.length > 0 && (
+        <div className="grocery-container">
+          <List items={list} />
+          <button className="clear-btn">clear items</button>
+        </div>
+      )}
     </section>
   );
 }
