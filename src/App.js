@@ -21,6 +21,18 @@ function App() {
       showAlert(true, "please enter name of item", "danger");
     } else if (name && isEditing) {
       //deal with edit
+      setList(
+        list.map((item) => {
+          if (item.id === editID) {
+            return { ...item, title: name };
+          }
+          return item;
+        })
+      );
+      setName("");
+      setEditID(null);
+      setIsEditing(false);
+      setAlert(true, "item edited", "success");
     } else {
       //show alert
       showAlert(true, "item added to the list", "success");
@@ -48,9 +60,16 @@ function App() {
     setList(newList);
   };
 
+  const editItem = (id) => {
+    const specificItem = list.find((item) => item.id === id);
+    setIsEditing(true);
+    setEditID(id);
+    setName(specificItem.title); //this gets the title of the item selected
+  };
+
   return (
     <section className="section-center">
-      <form className="grocery-form" onClick={handleSubmit}>
+      <form className="grocery-form" onSubmit={handleSubmit}>
         {alert.show && <Alert {...alert} removeAlert={showAlert} list={list} />}
 
         <h3>grocery app</h3>
@@ -70,7 +89,7 @@ function App() {
       {/* Only display list form when list is not empty*/}
       {list.length > 0 && (
         <div className="grocery-container">
-          <List items={list} removeItem={removeItem} />
+          <List items={list} removeItem={removeItem} editItem={editItem} />
           <button className="clear-btn" onClick={clearList}>
             clear items
           </button>
